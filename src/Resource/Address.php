@@ -7,6 +7,11 @@ use Nails\Common\Exception\FactoryException;
 use Nails\Common\Resource\Entity;
 use Nails\Factory;
 
+/**
+ * Class Address
+ *
+ * @package Nails\Address\Resource
+ */
 class Address extends Entity
 {
     /**
