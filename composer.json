@@ -1,0 +1,34 @@
+{
+    "name": "nails\/module-address",
+    "keywords": [],
+    "homepage": "http://nailsapp.co.uk/modules/address",
+    "description": "This module provides a unified API for storing addresses.",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "nails\/common": "dev-develop"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "{namespace}": "src\/"
+        },
+        "psr4": {
+            "Nails\\Address": "src\/"
+        }
+    },
+    "extra": {
+        "nails": {
+            "moduleName": "module-address",
+            "type": "module",
+            "namespace": "Nails\\Address\\",
+            "data": {}
+        }
+    },
+    "scripts": {
+        "test": ".\/vendor\/bin\/phpunit"
+    }
+}
