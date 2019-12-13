@@ -3,9 +3,10 @@
 namespace Nails\Address\Resource;
 
 use Nails\Address\Constants;
-use Nails\Address\Interfaces\Formatter;
+use Nails\Address\Interfaces;
 use Nails\Address\Service;
 use Nails\Common\Exception\FactoryException;
+use Nails\Common\Exception\ValidationException;
 use Nails\Common\Resource\Entity;
 use Nails\Factory;
 
@@ -19,9 +20,16 @@ class Address extends Entity
     /**
      * The formatter to use for this address
      *
-     * @var Formatter
+     * @var Interfaces\Formatter
      */
     protected $oFormatter;
+
+    /**
+     * The validator to use for this address
+     *
+     * @var Interfaces\Validator
+     */
+    protected $oValidator;
 
     /**
      * The address' country component
@@ -82,26 +90,14 @@ class Address extends Entity
     // --------------------------------------------------------------------------
 
     /**
-     * Address constructor.
-     *
-     * @param array $mObj The data to populate the resource with
-     */
-    public function __construct($mObj = [])
-    {
-        parent::__construct($mObj);
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Returns a formatter object
      *
-     * @param Formatter|null $oFormatter A specific formatter to use
+     * @param Interfaces\Formatter|null $oFormatter A specific formatter to use (defaults to automatic)
      *
-     * @return Formatter
+     * @return Interfaces\Formatter
      * @throws FactoryException
      */
-    public function formatted(Formatter $oFormatter = null): Formatter
+    public function formatted(Interfaces\Formatter $oFormatter = null): Interfaces\Formatter
     {
         if ($oFormatter !== null) {
 
@@ -117,6 +113,43 @@ class Address extends Entity
 
         } else {
             return $this->oFormatter;
+        }
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Determines whether the current address is valid
+     *
+     * @param Interfaces\Validator|null $oValidator A specific validator to use (defaults to automatic)
+     *
+     * @return bool
+     * @throws FactoryException
+     */
+    public function isValid(Interfaces\Validator $oValidator = null): bool
+    {
+        try {
+
+            if ($oValidator !== null) {
+
+                $oValidator::validate($this);
+
+            } elseif ($this->oValidator === null) {
+
+                /** @var Service\Address $oAddressService */
+                $oAddressService  = Factory::service('Address', Constants::MODULE_SLUG);
+                $this->oValidator = $oAddressService::getValidatorForCountry($this->country);
+
+                $this->oValidator::validate($this);
+
+            } else {
+                $this->oValidator::validate($this);
+            }
+
+            return true;
+
+        } catch (ValidationException $e) {
+            return false;
         }
     }
 }

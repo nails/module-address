@@ -1,11 +1,11 @@
 <?php
 
-namespace Nails\Address\Formatter;
+namespace Nails\Address\Validator;
 
 /**
  * Formats an address for GB
  *
- * @package Nails\Address\Formatter
+ * @package Nails\Address\Validator
  */
 class Gb extends Generic
 {

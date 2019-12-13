@@ -13,15 +13,6 @@ use Nails\Common\Exception\ValidationException;
 interface Formatter
 {
     /**
-     * Formatter constructor.
-     *
-     * @param Address $oAddress The address to format
-     */
-    public function __construct(Address $oAddress);
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Sets the address to format
      *
      * @param Address $oAddress The address to format
@@ -29,17 +20,6 @@ interface Formatter
      * @return Formatter
      */
     public function setAddress(Address $oAddress): Formatter;
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Validates an address object
-     *
-     * @param Address $oAddress
-     *
-     * @throws ValidationException
-     */
-    public static function validate(Address $oAddress): void;
 
     // --------------------------------------------------------------------------
 

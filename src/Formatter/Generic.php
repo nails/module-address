@@ -16,21 +16,9 @@ class Generic implements Formatter
     /**
      * The Address object
      *
-     * @var Address
+     * @var Address|null
      */
     protected $oAddress;
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Generic constructor.
-     *
-     * @param Address $oAddress The address to format
-     */
-    public function __construct(Address $oAddress)
-    {
-        $this->setAddress($oAddress);
-    }
 
     // --------------------------------------------------------------------------
 

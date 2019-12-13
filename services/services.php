@@ -36,7 +36,7 @@ return [
      * A class for which a new instance is created each time it is requested.
      */
     'factories' => [
-        'FormatterGb' => function (): Formatter\Gb {
+        'FormatterGb'      => function (): Formatter\Gb {
             if (class_exists('\App\Address\Formater\Gb')) {
                 return new \App\Address\Formatter\Gb();
             } else {
@@ -50,7 +50,7 @@ return [
                 return new Formatter\Generic();
             }
         },
-        'FormatterUs' => function (): Formatter\Us {
+        'FormatterUs'      => function (): Formatter\Us {
             if (class_exists('\App\Address\Formater\Us')) {
                 return new \App\Address\Formatter\Us();
             } else {
@@ -64,7 +64,8 @@ return [
      */
     'resources' => [
         'Address' => function ($mObj): Resource\Address {
-            if (class_exists('\App\Address\Resource\Address')) {
+
+            if (class_exists('\App\Address\Resouce\Address')) {
                 return new \App\Address\Resource\Address($mObj);
             } else {
                 return new Resource\Address($mObj);
