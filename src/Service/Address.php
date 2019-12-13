@@ -3,6 +3,7 @@
 namespace Nails\Address\Service;
 
 use Nails\Address\Constants;
+use Nails\Address\Exception\AddressException;
 use Nails\Address\Interfaces;
 use Nails\Address\Resource;
 use Nails\Common\Exception\FactoryException;
@@ -24,13 +25,18 @@ class Address
      *
      * @throws FactoryException
      * @throws ValidationException
+     * @throws AddressException
      */
-    public function validate(Resource\Address $oAddress, Interfaces\Validator $oValidator = null)
+    public function validate(Resource\Address $oAddress, $oValidator = null)
     {
         if (is_string($oValidator)) {
             $oValidator = static::getValidatorForCountry($oValidator);
         } elseif ($oValidator === null) {
             $oValidator = Factory::factory('ValidatorGeneric', Constants::MODULE_SLUG);
+        } elseif (!$oValidator instanceof Interfaces\Validator) {
+            throw new AddressException(
+                sprintf('Expected %s received %s', Interfaces\Validator::class, get_class($oValidator))
+            );
         }
 
         $oValidator::validate($oAddress);
