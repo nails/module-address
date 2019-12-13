@@ -2,7 +2,9 @@
 
 namespace Nails\Address\Resource;
 
+use Nails\Address\Constants;
 use Nails\Address\Interfaces\Formatter;
+use Nails\Address\Service;
 use Nails\Common\Exception\FactoryException;
 use Nails\Common\Resource\Entity;
 use Nails\Factory;
@@ -107,11 +109,9 @@ class Address extends Entity
 
         } elseif ($this->oFormatter === null) {
 
-            try {
-                $this->oFormatter = Factory::factory('Formatter' . $this->country);
-            } catch (\Exception $e) {
-                $this->oFormatter = Factory::factory('FormatterGeneric');
-            }
+            /** @var Service\Address $oAddressService */
+            $oAddressService  = Factory::service('Address', Constants::MODULE_SLUG);
+            $this->oFormatter = $oAddressService::getFormatterForCountry($this->country);
 
             return $this->oFormatter->setAddress($this);
 
