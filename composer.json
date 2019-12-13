@@ -13,11 +13,8 @@
         "phpunit\/phpunit": "8.*"
     },
     "autoload": {
-        "psr-4": {
-            "{namespace}": "src\/"
-        },
         "psr4": {
-            "Nails\\Address": "src\/"
+            "Nails\\Address\\": "src\/"
         }
     },
     "extra": {
