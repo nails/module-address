@@ -35,4 +35,4 @@ jobs:
         key: composer-dependencies-{{ checksum "composer.json" }}
 
     # run tests!
-    - run: ./vendor/bin/phpunit
+    - run: composer test
