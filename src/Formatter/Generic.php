@@ -4,6 +4,7 @@ namespace Nails\Address\Formatter;
 
 use Nails\Address\Interfaces\Formatter;
 use Nails\Address\Resource\Address;
+use Nails\Common\Exception\ValidationException;
 
 /**
  * Formats an address in a generic way
@@ -44,6 +45,21 @@ class Generic implements Formatter
     {
         $this->oAddress = $oAddress;
         return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Validates an address object
+     *
+     * @param Address $oAddress
+     *
+     * @throws ValidationException
+     */
+    public static function validate(Address $oAddress): void
+    {
+        //  @todo (Pablo - 2019-12-13) - Complete this
+        throw new ValidationException();
     }
 
     // --------------------------------------------------------------------------
