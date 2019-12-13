@@ -2,7 +2,7 @@
     "name": "nails\/module-address",
     "keywords": [],
     "homepage": "http://nailsapp.co.uk/modules/address",
-    "description": "This module provides a unified API for storing addresses.",
+    "description": "This module provides a unified API for storing, formatting, and validating addresses.",
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
