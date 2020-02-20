@@ -1,6 +1,6 @@
 <?php
 
-namespace Nails\Address\Model;
+namespace Nails\Address\Model\Address;
 
 use Nails\Address\Constants;
 use Nails\Address\Formatter\Generic;
@@ -9,25 +9,25 @@ use Nails\Common\Exception\ModelException;
 use Nails\Common\Model\Base;
 
 /**
- * Class Address
+ * Class Associated
  *
- * @package Nails\Address\Model
+ * @package Nails\Address\Model\Address
  */
-class Address extends Base
+class Associated extends Base
 {
     /**
      * The table this model represents
      *
      * @var string
      */
-    const TABLE = NAILS_DB_PREFIX . 'address';
+    const TABLE = NAILS_DB_PREFIX . 'address_associated';
 
     /**
      * The name of the resource to use (as passed to \Nails\Factory::resource())
      *
      * @var string
      */
-    const RESOURCE_NAME = 'Address';
+    const RESOURCE_NAME = 'AddressAssociated';
 
     /**
      * The provider of the resource to use (as passed to \Nails\Factory::resource())
@@ -39,7 +39,7 @@ class Address extends Base
     // --------------------------------------------------------------------------
 
     /**
-     * Address constructor.
+     * Associated constructor.
      *
      * @throws ModelException
      */
@@ -48,9 +48,8 @@ class Address extends Base
         parent::__construct();
         $this
             ->addExpandableField([
-                'trigger'   => 'associated',
-                'type'      => static::EXPANDABLE_TYPE_MANY,
-                'model'     => 'AddressAssociated',
+                'trigger'   => 'address',
+                'model'     => 'Address',
                 'provider'  => Constants::MODULE_SLUG,
                 'id_column' => 'address_id',
             ]);

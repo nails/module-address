@@ -38,28 +38,13 @@ class Generic implements Formatter
     // --------------------------------------------------------------------------
 
     /**
-     * Validates an address object
-     *
-     * @param Address $oAddress
-     *
-     * @throws ValidationException
-     */
-    public static function validate(Address $oAddress): void
-    {
-        //  @todo (Pablo - 2019-12-13) - Complete this
-        throw new ValidationException();
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
      * Formats as a CSV
      *
      * @return string
      */
     public function asCsv(): string
     {
-        //  @todo (Pablo - 2019-12-13) - Complete this
+        return implode(', ', $this->asArray());
     }
 
     // --------------------------------------------------------------------------
@@ -71,18 +56,27 @@ class Generic implements Formatter
      */
     public function asJson(): string
     {
-        //  @todo (Pablo - 2019-12-13) - Complete this
+        return json_encode($this->asArray());
     }
 
     // --------------------------------------------------------------------------
 
     /**
-     * formats as an array
+     * Formats as an array
      *
      * @return array
      */
     public function asArray(): array
     {
-        //  @todo (Pablo - 2019-12-13) - Complete this
+        return [
+            'label'    => $this->oAddress->label,
+            'line_1'   => $this->oAddress->line_1,
+            'line_2'   => $this->oAddress->line_2,
+            'line_3'   => $this->oAddress->line_3,
+            'town'     => $this->oAddress->town,
+            'region'   => $this->oAddress->region,
+            'postcode' => $this->oAddress->postcode,
+            'country'  => $this->oAddress->country,
+        ];
     }
 }

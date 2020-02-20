@@ -9,6 +9,7 @@ use Nails\Address\Model;
 use Nails\Address\Resource;
 use Nails\Address\Service;
 use Nails\Address\Formatter;
+use Nails\Address\Validator;
 
 return [
 
@@ -23,11 +24,18 @@ return [
     ],
 
     'models'    => [
-        'Address' => function (): Model\Address {
+        'Address'           => function (): Model\Address {
             if (class_exists('\App\Address\Model\Address')) {
                 return new \App\Address\Model\Address();
             } else {
                 return new Model\Address();
+            }
+        },
+        'AddressAssociated' => function (): Model\Address\Associated {
+            if (class_exists('\App\Address\Model\Address\Associated')) {
+                return new \App\Address\Model\Address\Associated();
+            } else {
+                return new Model\Address\Associated();
             }
         },
     ],
@@ -57,18 +65,47 @@ return [
                 return new Formatter\Us();
             }
         },
+        'ValidatorGb'      => function (): Validator\Gb {
+            if (class_exists('\App\Address\Formater\Gb')) {
+                return new \App\Address\Validator\Gb();
+            } else {
+                return new Validator\Gb();
+            }
+        },
+        'ValidatorGeneric' => function (): Validator\Generic {
+            if (class_exists('\App\Address\Formater\Generic')) {
+                return new \App\Address\Validator\Generic();
+            } else {
+                return new Validator\Generic();
+            }
+        },
+        'ValidatorUs'      => function (): Validator\Us {
+            if (class_exists('\App\Address\Formater\Us')) {
+                return new \App\Address\Validator\Us();
+            } else {
+                return new Validator\Us();
+            }
+        },
     ],
 
     /**
      * A class which represents an object from the database
      */
     'resources' => [
-        'Address' => function ($mObj): Resource\Address {
+        'Address'           => function ($mObj): Resource\Address {
 
             if (class_exists('\App\Address\Resouce\Address')) {
                 return new \App\Address\Resource\Address($mObj);
             } else {
                 return new Resource\Address($mObj);
+            }
+        },
+        'AddressAssociated' => function ($mObj): Resource\Address\Associated {
+
+            if (class_exists('\App\Address\Resouce\Address\Associated')) {
+                return new \App\Address\Resource\Address\Associated($mObj);
+            } else {
+                return new Resource\Address\Associated($mObj);
             }
         },
     ],

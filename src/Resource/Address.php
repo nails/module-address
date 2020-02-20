@@ -130,26 +130,53 @@ class Address extends Entity
     {
         try {
 
-            if ($oValidator !== null) {
-
-                $oValidator::validate($this);
-
-            } elseif ($this->oValidator === null) {
-
-                /** @var Service\Address $oAddressService */
-                $oAddressService  = Factory::service('Address', Constants::MODULE_SLUG);
-                $this->oValidator = $oAddressService::getValidatorForCountry($this->country);
-
-                $this->oValidator::validate($this);
-
-            } else {
-                $this->oValidator::validate($this);
-            }
-
+            $this->validate($oValidator);
             return true;
 
         } catch (ValidationException $e) {
             return false;
         }
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Validates the address
+     *
+     * @param Interfaces\Validator|null $oValidator A specific validator to use (defaults to automatic)
+     *
+     * @throws FactoryException
+     * @throws ValidationException
+     */
+    public function validate(Interfaces\Validator $oValidator = null)
+    {
+        if ($oValidator !== null) {
+
+            $oValidator::validate($this);
+
+        } elseif ($this->oValidator === null) {
+
+            /** @var Service\Address $oAddressService */
+            $oAddressService  = Factory::service('Address', Constants::MODULE_SLUG);
+            $this->oValidator = $oAddressService::getValidatorForCountry($this->country);
+
+            $this->oValidator::validate($this);
+
+        } else {
+            $this->oValidator::validate($this);
+        }
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Returns a computed hash of the address
+     *
+     * @return string
+     * @throws FactoryException
+     */
+    public function hash(): string
+    {
+        return md5($this->formatted()->asJson());
     }
 }
