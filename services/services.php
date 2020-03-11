@@ -94,7 +94,7 @@ return [
     'resources' => [
         'Address'           => function ($mObj): Resource\Address {
 
-            if (class_exists('\App\Address\Resouce\Address')) {
+            if (class_exists('\App\Address\Resource\Address')) {
                 return new \App\Address\Resource\Address($mObj);
             } else {
                 return new Resource\Address($mObj);
@@ -102,7 +102,7 @@ return [
         },
         'AddressAssociated' => function ($mObj): Resource\Address\Associated {
 
-            if (class_exists('\App\Address\Resouce\Address\Associated')) {
+            if (class_exists('\App\Address\Resource\Address\Associated')) {
                 return new \App\Address\Resource\Address\Associated($mObj);
             } else {
                 return new Resource\Address\Associated($mObj);
