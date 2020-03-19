@@ -28,7 +28,23 @@
             "moduleName": "module-address",
             "type": "module",
             "namespace": "Nails\\Address\\",
-            "data": {}
+            "data": {
+                "nails/module-api": {
+                    "namespace": "address"
+                },
+                "nails/module-admin": {
+                    "autoload": {
+                        "assets": {
+                            "js": [
+                                "admin.min.js"
+                            ],
+                            "css": [
+                                "admin.min.css"
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "scripts": {

@@ -1,0 +1,23 @@
+{
+    "name": "nails-module-address",
+    "description": "This is the \"Address\" module for Nails.",
+    "author": "hello@nailsapp.co.uk",
+    "analyze": true,
+    "license": "MIT",
+    "repository": "https://github.com/nails/module-address",
+    "devDependencies": {
+        "autoprefixer": "^9.7",
+        "css-loader": "^3.4",
+        "mini-css-extract-plugin": "^0.9",
+        "node-sass": "^4.13",
+        "postcss-loader": "^3.0",
+        "sass-loader": "^8.0",
+        "webpack": "^4.42",
+        "webpack-command": "^0.5"
+    },
+    "scripts": {
+        "build": "webpack -p",
+        "build-dev": "webpack",
+        "watch": "webpack --watch"
+    }
+}
