@@ -19,7 +19,7 @@ class Address
      *
      * @param array $aArray The array to extract from
      *
-     * @return Resource\Address
+     * @return array
      * @throws FactoryException
      */
     public static function extractAddressComponentsFromArray(array $aArray): array
