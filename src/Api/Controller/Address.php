@@ -34,7 +34,7 @@ class Address extends Api\Controller\CrudController
     {
         if (!isAdmin()) {
             throw new ValidationException(
-                HttpCodes::getByCode(STATUS_UNAUTHORIZED),
+                HttpCodes::getByCode(HttpCodes::STATUS_UNAUTHORIZED),
                 HttpCodes::STATUS_UNAUTHORIZED
             );
         }

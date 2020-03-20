@@ -128,34 +128,60 @@ class AddressPickerInstance {
                 'url': `${window.SITE_URL}api/address/address/${id}`
             })
                 .done((response) => {
-                    this.$label
-                        .val(response.data.label)
-                        .data('orig-value', response.data.label || '');
-                    this.$line_1
-                        .val(response.data.line_1)
-                        .data('orig-value', response.data.line_1 || '');
-                    this.$line_2
-                        .val(response.data.line_2)
-                        .data('orig-value', response.data.line_2 || '');
-                    this.$line_3
-                        .val(response.data.line_3)
-                        .data('orig-value', response.data.line_3 || '');
-                    this.$town
-                        .val(response.data.town)
-                        .data('orig-value', response.data.town || '');
-                    this.$region
-                        .val(response.data.region)
-                        .data('orig-value', response.data.region || '');
-                    this.$postcode
-                        .val(response.data.postcode)
-                        .data('orig-value', response.data.postcode || '');
-                    this.$country
-                        .val(response.data.country)
-                        .data('orig-value', response.data.country || '')
-                        .trigger('change');
+                    //  Set orig values
+                    this.$label.data('orig-value', response.data.label || '');
+                    this.$line_1.data('orig-value', response.data.line_1 || '');
+                    this.$line_2.data('orig-value', response.data.line_2 || '');
+                    this.$line_3.data('orig-value', response.data.line_3 || '');
+                    this.$town.data('orig-value', response.data.town || '');
+                    this.$region.data('orig-value', response.data.region || '');
+                    this.$postcode.data('orig-value', response.data.postcode || '');
+                    this.$country.data('orig-value', response.data.country || '');
+
+                    if (!this.$label.val().length) {
+                        this.$label.val(response.data.label);
+                    }
+
+                    if (!this.$line_1.val().length) {
+                        this.$line_1.val(response.data.line_1);
+                    }
+
+                    if (!this.$line_2.val().length) {
+                        this.$line_2.val(response.data.line_2);
+                    }
+
+                    if (!this.$line_3.val().length) {
+                        this.$line_3.val(response.data.line_3);
+                    }
+
+                    if (!this.$town.val().length) {
+                        this.$town.val(response.data.town);
+                    }
+
+                    if (!this.$region.val().length) {
+                        this.$region.val(response.data.region);
+                    }
+
+                    if (!this.$postcode.val().length) {
+                        this.$postcode.val(response.data.postcode);
+                    }
+
+                    if (!this.$country.find(':selected').val()) {
+                        this.$country.val(response.data.country).trigger('change');
+                    }
+
+                    this.testDirty();
                 })
-                .fail(() => {
-                    this.adminController.log('womp womp');
+                .fail((response) => {
+
+                    let data;
+                    try {
+                        data = JSON.parse(response.responseText);
+                    } catch (e) {
+                        data = {'error': 'An unknown error occurred.'}
+                    }
+
+                    this.adminController.error(data.error);
                 })
                 .always(() => {
                     this.setLoading(false);
