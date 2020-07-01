@@ -44,7 +44,7 @@ class Generic implements Formatter
      */
     public function asCsv(): string
     {
-        return implode(', ', $this->asArray());
+        return implode(', ', array_filter($this->asArray()));
     }
 
     // --------------------------------------------------------------------------
