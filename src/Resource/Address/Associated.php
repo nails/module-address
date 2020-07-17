@@ -28,6 +28,9 @@ class Associated extends Entity
     /** @var Address */
     public $address;
 
+    /** @var bool */
+    public $is_default;
+
     // --------------------------------------------------------------------------
 
     /**
@@ -46,5 +49,17 @@ class Associated extends Entity
         }
 
         return $this->address;
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Returns whether the address is the default address or not
+     *
+     * @return bool
+     */
+    public function isDefault(): bool
+    {
+        return $this->is_default;
     }
 }
