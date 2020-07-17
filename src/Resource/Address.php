@@ -8,6 +8,7 @@ use Nails\Address\Service;
 use Nails\Common\Exception\FactoryException;
 use Nails\Common\Exception\ValidationException;
 use Nails\Common\Resource\Entity;
+use Nails\Common\Service\Country;
 use Nails\Factory;
 
 /**
@@ -34,7 +35,7 @@ class Address extends Entity
     /**
      * The address' country component
      *
-     * @var string
+     * @var \Nails\Common\Resource\Country
      */
     public $country;
 
@@ -86,6 +87,19 @@ class Address extends Entity
      * @var string
      */
     public $postcode;
+
+    // --------------------------------------------------------------------------
+
+    public function __construct($mObj = [])
+    {
+        parent::__construct($mObj);
+
+        /** @var Country $oCountryService */
+        $oCountryService = Factory::service('Country');
+        if ($this->country) {
+            $this->country = $oCountryService->getCountry($this->country);
+        }
+    }
 
     // --------------------------------------------------------------------------
 
