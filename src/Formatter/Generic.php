@@ -5,6 +5,8 @@ namespace Nails\Address\Formatter;
 use Nails\Address\Interfaces\Formatter;
 use Nails\Address\Resource\Address;
 use Nails\Common\Exception\ValidationException;
+use Nails\Common\Service\Country;
+use Nails\Factory;
 
 /**
  * Formats an address in a generic way
@@ -68,6 +70,9 @@ class Generic implements Formatter
      */
     public function asArray(): array
     {
+        /** @var Country $oCountryService */
+        $oCountryService = Factory::service('Country');
+
         return [
             'label'    => $this->oAddress->label,
             'line_1'   => $this->oAddress->line_1,
@@ -76,7 +81,7 @@ class Generic implements Formatter
             'town'     => $this->oAddress->town,
             'region'   => $this->oAddress->region,
             'postcode' => $this->oAddress->postcode,
-            'country'  => $this->oAddress->country,
+            'country'  => $this->oAddress->country->label ?? null,
         ];
     }
 }
