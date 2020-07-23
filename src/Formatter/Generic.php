@@ -81,7 +81,7 @@ class Generic implements Formatter
             'town'     => $this->oAddress->town,
             'region'   => $this->oAddress->region,
             'postcode' => $this->oAddress->postcode,
-            'country'  => $this->oAddress->country->label ?? null,
+            'country'  => $this->oAddress->country->name ?? null,
         ];
     }
 }
