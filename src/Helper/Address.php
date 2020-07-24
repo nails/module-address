@@ -25,6 +25,7 @@ class Address
     public static function extractAddressComponentsFromArray(array $aArray): array
     {
         return [
+            'id'       => (int) getFromArray('id', $aArray) ?: null,
             'label'    => trim(getFromArray('label', $aArray)),
             'line_1'   => trim(getFromArray('line_1', $aArray)),
             'line_2'   => trim(getFromArray('line_2', $aArray)),

@@ -159,10 +159,11 @@ class Address extends Entity
      *
      * @param Interfaces\Validator|null $oValidator A specific validator to use (defaults to automatic)
      *
+     * @return $this
      * @throws FactoryException
      * @throws ValidationException
      */
-    public function validate(Interfaces\Validator $oValidator = null)
+    public function validate(Interfaces\Validator $oValidator = null): self
     {
         if ($oValidator !== null) {
 
@@ -179,6 +180,8 @@ class Address extends Entity
         } else {
             $this->oValidator::validate($this);
         }
+
+        return $this;
     }
 
     // --------------------------------------------------------------------------
@@ -192,5 +195,38 @@ class Address extends Entity
     public function hash(): string
     {
         return md5($this->formatted()->asJson());
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Saves the address to the DB
+     *
+     * @return $this
+     * @throws FactoryException
+     * @throws \Nails\Common\Exception\ModelException
+     */
+    public function save(): self
+    {
+        $oModel = Factory::model('Address', Constants::MODULE_SLUG);
+
+        $aData = [
+            'label'    => $this->label,
+            'country'  => $this->country->iso ?? null,
+            'line_1'   => $this->line_1,
+            'line_2'   => $this->line_2,
+            'line_3'   => $this->line_3,
+            'town'     => $this->town,
+            'region'   => $this->region,
+            'postcode' => $this->postcode,
+        ];
+
+        if ($this->id) {
+            $oModel->update($this->id, $aData);
+        } else {
+            $this->id = $oModel->create($aData);
+        }
+
+        return $this;
     }
 }
