@@ -161,7 +161,40 @@ class Address
      */
     public function associatedAddressesSet(object $oAssociated, array $aAddresses): self
     {
-        //  @todo (Pablo 24/07/2020) - complete this
+        /** @var Database $oDb */
+        $oDb = Factory::service('Database');
+
+        try {
+
+            $oDb->trans_begin();
+
+            //  Save and associate each address
+            foreach ($aAddresses as &$aAddress) {
+                $oAddress = $aAddress = $this
+                    ->extractAddress($aAddress)
+                    ->save();
+
+                $this->associatedAddressAdd($oAssociated, $oAddress);
+            }
+
+            //  Remove addresses which were not touched
+            $this->oAssociatedModel->deleteWhere(
+                array_filter([
+                    !empty($aAddresses)
+                        ? 'address_id NOT IN (' . implode(',', arrayExtractProperty($aAddresses, 'id')) . ')'
+                        : null,
+                    ['associated_type', $this->getAssociatedType($oAssociated)],
+                    ['associated_id', $this->getAssociatedId($oAssociated)],
+                ])
+            );
+
+            $oDb->trans_commit();
+
+        } catch (\Exception $e) {
+            $oDb->trans_rollback();
+            throw $e;
+        }
+
         return $this;
     }
 
