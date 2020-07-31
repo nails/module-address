@@ -39,6 +39,13 @@ class Generic implements Formatter
 
     // --------------------------------------------------------------------------
 
+    public function withSeparator(string $sSeparator): string
+    {
+        return implode($sSeparator, array_filter($this->asArray()));
+    }
+
+    // --------------------------------------------------------------------------
+
     /**
      * Formats as a CSV
      *
@@ -46,7 +53,7 @@ class Generic implements Formatter
      */
     public function asCsv(): string
     {
-        return implode(', ', array_filter($this->asArray()));
+        return $this->withSeparator(', ');
     }
 
     // --------------------------------------------------------------------------

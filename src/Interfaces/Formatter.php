@@ -24,6 +24,17 @@ interface Formatter
     // --------------------------------------------------------------------------
 
     /**
+     * Formats with separator
+     *
+     * @param string $sSeparator The separator to use
+     *
+     * @return string
+     */
+    public function withSeparator(string $sSeparator): string;
+
+    // --------------------------------------------------------------------------
+
+    /**
      * Formats as a CSV
      *
      * @return string
