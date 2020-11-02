@@ -1,2 +1,1 @@
-.js-address-picker.loading .js-address-picker__fields{opacity:0.5;position:relative}.js-address-picker.loading .js-address-picker__fields:after{content:'';position:absolute;width:100%;height:100%;top:0;left:0;cursor:progress}
-
+.js-address-picker.loading .js-address-picker__fields{opacity:.5;position:relative}.js-address-picker.loading .js-address-picker__fields:after{content:"";position:absolute;width:100%;height:100%;top:0;left:0;cursor:progress}
