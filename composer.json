@@ -25,7 +25,7 @@
     },
     "extra": {
         "nails": {
-            "moduleName": "module-address",
+            "moduleName": "address",
             "type": "module",
             "namespace": "Nails\\Address\\",
             "data": {
