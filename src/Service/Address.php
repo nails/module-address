@@ -340,7 +340,7 @@ class Address
      * @return Resource\Address
      * @throws FactoryException
      */
-    protected function extractAddress($mAddress): Resource\Address
+    public function extractAddress($mAddress): Resource\Address
     {
         if ($mAddress instanceof Resource\Address) {
             return $mAddress;
