@@ -1,57 +1,98 @@
 <?php
 
-namespace Nails\Address\Validator;
+namespace Nails\Address\Formatter;
 
-use Nails\Address\Interfaces\Validator;
+use Nails\Address\Interfaces\Formatter;
 use Nails\Address\Resource\Address;
-use Nails\Common\Exception\FactoryException;
 use Nails\Common\Exception\ValidationException;
 use Nails\Common\Service\Country;
-use Nails\Common\Service\FormValidation;
 use Nails\Factory;
 
 /**
- * Validates an address to a country's standards
+ * Formats an address in a generic way
  *
- * @package Nails\Address\Validator
+ * @package Nails\Address\Formatter
  */
-class Generic implements Validator
+class Generic implements Formatter
 {
     /**
-     * Validates an address object
+     * The Address object
      *
-     * @param Address $oAddress The Address to validate
-     * @param array   $aRules   Any additional validation rules to apply
-     *
-     * @throws FactoryException
-     * @throws ValidationException
+     * @var Address|null
      */
-    public static function validate(Address $oAddress, array $aRules = []): void
+    protected $oAddress;
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Sets the address to format
+     *
+     * @param Address $oAddress The address to format
+     *
+     * @return Formatter
+     */
+    public function setAddress(Address $oAddress): Formatter
     {
-        /** @var FormValidation $oFormValidation */
-        $oFormValidation = Factory::service('FormValidation');
+        $this->oAddress = $oAddress;
+        return $this;
+    }
+
+    // --------------------------------------------------------------------------
+
+    public function withSeparator(string $sSeparator): string
+    {
+        return implode($sSeparator, array_filter($this->asArray()));
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Formats as a CSV
+     *
+     * @return string
+     */
+    public function asCsv(): string
+    {
+        return $this->withSeparator(', ');
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Formats as JSON
+     *
+     * @return string
+     */
+    public function asJson(): string
+    {
+        return json_encode($this->asArray());
+    }
+
+    // --------------------------------------------------------------------------
+
+    /**
+     * Formats as an array
+     *
+     * @param bool $bUseCountryLabel Whether to use the country's label or it's ISO code
+     *
+     * @return array
+     */
+    public function asArray(bool $bUseCountryLabel = true): array
+    {
         /** @var Country $oCountryService */
         $oCountryService = Factory::service('Country');
 
-        $oFormValidation
-            ->buildValidator(array_merge(
-                [
-                    'line_1'   => [
-                        FormValidation::RULE_REQUIRED,
-                    ],
-                    'postcode' => [
-                        FormValidation::RULE_REQUIRED,
-                    ],
-                    'country'  => [
-                        FormValidation::RULE_REQUIRED,
-                        FormValidation::rule(
-                            FormValidation::RULE_IN_LIST,
-                            implode(',', array_keys($oCountryService->getCountriesFlat()))
-                        ),
-                    ],
-                ],
-                $aRules
-            ))
-            ->run($oAddress->formatted()->asArray());
+        return [
+            'label'    => $this->oAddress->label,
+            'line_1'   => $this->oAddress->line_1,
+            'line_2'   => $this->oAddress->line_2,
+            'line_3'   => $this->oAddress->line_3,
+            'town'     => $this->oAddress->town,
+            'region'   => $this->oAddress->region,
+            'postcode' => $this->oAddress->postcode,
+            'country'  => $bUseCountryLabel
+                ? ($this->oAddress->country->name ?? null)
+                : ($this->oAddress->country->iso ?? null),
+        ];
     }
 }

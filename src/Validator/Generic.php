@@ -52,6 +52,6 @@ class Generic implements Validator
                 ],
                 $aRules
             ))
-            ->run($oAddress->formatted()->asArray());
+            ->run($oAddress->formatted()->asArray(false));
     }
 }
