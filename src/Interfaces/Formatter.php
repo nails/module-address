@@ -3,7 +3,6 @@
 namespace Nails\Address\Interfaces;
 
 use Nails\Address\Resource\Address;
-use Nails\Common\Exception\ValidationException;
 
 /**
  * Interface Formatter

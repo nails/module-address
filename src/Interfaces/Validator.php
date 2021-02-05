@@ -15,10 +15,10 @@ interface Validator
     /**
      * Validates an address object
      *
-     * @param Address $oAddress The address to validate
+     * @param Address $oAddress The Address to validate
+     * @param array   $aRules   Any additional validation rules to apply
      *
      * @throws ValidationException
      */
-    public static function validate(Address $oAddress): void;
-
+    public static function validate(Address $oAddress, array $aRules = []): void;
 }

@@ -1,94 +1,57 @@
 <?php
 
-namespace Nails\Address\Formatter;
+namespace Nails\Address\Validator;
 
-use Nails\Address\Interfaces\Formatter;
+use Nails\Address\Interfaces\Validator;
 use Nails\Address\Resource\Address;
+use Nails\Common\Exception\FactoryException;
 use Nails\Common\Exception\ValidationException;
 use Nails\Common\Service\Country;
+use Nails\Common\Service\FormValidation;
 use Nails\Factory;
 
 /**
- * Formats an address in a generic way
+ * Validates an address to a country's standards
  *
- * @package Nails\Address\Formatter
+ * @package Nails\Address\Validator
  */
-class Generic implements Formatter
+class Generic implements Validator
 {
     /**
-     * The Address object
+     * Validates an address object
      *
-     * @var Address|null
+     * @param Address $oAddress The Address to validate
+     * @param array   $aRules   Any additional validation rules to apply
+     *
+     * @throws FactoryException
+     * @throws ValidationException
      */
-    protected $oAddress;
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Sets the address to format
-     *
-     * @param Address $oAddress The address to format
-     *
-     * @return Formatter
-     */
-    public function setAddress(Address $oAddress): Formatter
+    public static function validate(Address $oAddress, array $aRules = []): void
     {
-        $this->oAddress = $oAddress;
-        return $this;
-    }
-
-    // --------------------------------------------------------------------------
-
-    public function withSeparator(string $sSeparator): string
-    {
-        return implode($sSeparator, array_filter($this->asArray()));
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Formats as a CSV
-     *
-     * @return string
-     */
-    public function asCsv(): string
-    {
-        return $this->withSeparator(', ');
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Formats as JSON
-     *
-     * @return string
-     */
-    public function asJson(): string
-    {
-        return json_encode($this->asArray());
-    }
-
-    // --------------------------------------------------------------------------
-
-    /**
-     * Formats as an array
-     *
-     * @return array
-     */
-    public function asArray(): array
-    {
+        /** @var FormValidation $oFormValidation */
+        $oFormValidation = Factory::service('FormValidation');
         /** @var Country $oCountryService */
         $oCountryService = Factory::service('Country');
 
-        return [
-            'label'    => $this->oAddress->label,
-            'line_1'   => $this->oAddress->line_1,
-            'line_2'   => $this->oAddress->line_2,
-            'line_3'   => $this->oAddress->line_3,
-            'town'     => $this->oAddress->town,
-            'region'   => $this->oAddress->region,
-            'postcode' => $this->oAddress->postcode,
-            'country'  => $this->oAddress->country->name ?? null,
-        ];
+        $oFormValidation
+            ->buildValidator(array_merge(
+                [
+                    'line_1'   => [
+                        FormValidation::RULE_REQUIRED,
+                    ],
+                    'postcode' => [
+                        FormValidation::RULE_REQUIRED,
+                    ],
+                    'country'  => [
+                        FormValidation::RULE_REQUIRED,
+                        FormValidation::rule(
+                            FormValidation::RULE_IN_LIST,
+                            implode(',', array_keys($oCountryService->getCountriesFlat()))
+                        ),
+                    ],
+                ],
+                $aRules
+            ))
+            ->run($oAddress->formatted()->asArray());
     }
 }
