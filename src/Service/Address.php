@@ -166,7 +166,7 @@ class Address
 
         try {
 
-            $oDb->trans_begin();
+            $oDb->transaction()->start();
 
             //  Save and associate each address
             foreach ($aAddresses as &$aAddress) {
@@ -188,10 +188,10 @@ class Address
                 ])
             );
 
-            $oDb->trans_commit();
+            $oDb->transaction()->commit();
 
         } catch (\Exception $e) {
-            $oDb->trans_rollback();
+            $oDb->transaction()->rollback();
             throw $e;
         }
 
@@ -230,7 +230,7 @@ class Address
 
         try {
 
-            $oDb->trans_begin();
+            $oDb->transaction()->start();
 
             $oAddress->save();
 
@@ -245,10 +245,10 @@ class Address
                 throw new AddressException();
             }
 
-            $oDb->trans_commit();
+            $oDb->transaction()->commit();
 
         } catch (\Exception $e) {
-            $oDb->trans_rollback();
+            $oDb->transaction()->rollback();
             throw $e;
         }
 
