@@ -9,7 +9,7 @@
  * @author      Nails Dev Team
  */
 
-namespace Nails\Database\Migration\Nails\ModuleAddress;
+namespace Nails\Address\Database\Migration;
 
 use Nails\Common\Console\Migrate\Base;
 
