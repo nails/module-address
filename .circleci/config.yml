@@ -38,4 +38,7 @@ jobs:
         key: composer-dependencies-{{ checksum "composer.json" }}
 
     # run tests!
-    - run: composer test
+    - run:
+        command: composer test
+        environment:
+            PRIVATE_KEY: abc123
