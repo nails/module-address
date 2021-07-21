@@ -38,12 +38,27 @@ class Generic implements Validator
                 [
                     'line_1'   => [
                         FormValidation::RULE_REQUIRED,
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
+                    ],
+                    'line_2'   => [
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
+                    ],
+                    'line_3'   => [
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
+                    ],
+                    'town'     => [
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
+                    ],
+                    'region'   => [
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
                     ],
                     'postcode' => [
                         FormValidation::RULE_REQUIRED,
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 150),
                     ],
                     'country'  => [
                         FormValidation::RULE_REQUIRED,
+                        FormValidation::rule(FormValidation::RULE_MAX_LENGTH, 2),
                         FormValidation::rule(
                             FormValidation::RULE_IN_LIST,
                             implode(',', array_keys($oCountryService->getCountriesFlat()))
