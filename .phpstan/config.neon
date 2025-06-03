@@ -8,6 +8,6 @@ parameters:
         - constants.php
         - ../vendor/nails/common/src/Common/CodeIgniter/Core/Common.php
     scanDirectories:
-        - ../vendor/codeigniter/framework/system/helpers
+        - ../vendor/pocketarc/codeigniter/system/helpers
         - ../vendor/nails/common/helpers
         - ../vendor/nails/module-admin/helpers
