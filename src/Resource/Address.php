@@ -111,7 +111,7 @@ class Address extends Entity
      * @return Interfaces\Formatter
      * @throws FactoryException
      */
-    public function formatted(Interfaces\Formatter $oFormatter = null): Interfaces\Formatter
+    public function formatted(?Interfaces\Formatter $oFormatter = null): Interfaces\Formatter
     {
         if ($oFormatter !== null) {
 
@@ -140,7 +140,7 @@ class Address extends Entity
      * @return bool
      * @throws FactoryException
      */
-    public function isValid(Interfaces\Validator $oValidator = null): bool
+    public function isValid(?Interfaces\Validator $oValidator = null): bool
     {
         try {
 
@@ -163,7 +163,7 @@ class Address extends Entity
      * @throws FactoryException
      * @throws ValidationException
      */
-    public function validate(Interfaces\Validator $oValidator = null): self
+    public function validate(?Interfaces\Validator $oValidator = null): self
     {
         if ($oValidator !== null) {
 
