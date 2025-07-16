@@ -92,20 +92,18 @@ return [
      * A class which represents an object from the database
      */
     'resources' => [
-        'Address'           => function ($mObj): Resource\Address {
-
+        'Address'           => function ($resource, $model): Resource\Address {
             if (class_exists('\App\Address\Resource\Address')) {
-                return new \App\Address\Resource\Address($mObj);
+                return new \App\Address\Resource\Address($resource, $model);
             } else {
-                return new Resource\Address($mObj);
+                return new Resource\Address($resource, $model);
             }
         },
-        'AddressAssociated' => function ($mObj): Resource\Address\Associated {
-
+        'AddressAssociated' => function ($resource, $model): Resource\Address\Associated {
             if (class_exists('\App\Address\Resource\Address\Associated')) {
-                return new \App\Address\Resource\Address\Associated($mObj);
+                return new \App\Address\Resource\Address\Associated($resource, $model);
             } else {
-                return new Resource\Address\Associated($mObj);
+                return new Resource\Address\Associated($resource, $model);
             }
         },
     ],

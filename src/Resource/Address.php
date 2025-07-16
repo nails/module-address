@@ -7,9 +7,11 @@ use Nails\Address\Interfaces;
 use Nails\Address\Service;
 use Nails\Common\Exception\FactoryException;
 use Nails\Common\Exception\ValidationException;
+use Nails\Common\Model\Base;
 use Nails\Common\Resource\Entity;
 use Nails\Common\Service\Country;
 use Nails\Factory;
+use stdClass;
 
 /**
  * Class Address
@@ -90,9 +92,9 @@ class Address extends Entity
 
     // --------------------------------------------------------------------------
 
-    public function __construct($mObj = [])
+    public function __construct(self|stdClass|array $resource = [], ?Base $model = null)
     {
-        parent::__construct($mObj);
+        parent::__construct($resource, $model);
 
         /** @var Country $oCountryService */
         $oCountryService = Factory::service('Country');
